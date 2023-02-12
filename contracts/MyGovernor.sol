@@ -7,10 +7,18 @@ import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol
 import "@openzeppelin/contracts/governance/extensions/GovernorVotes.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
 
-contract MyGovernor is Governor, GovernorSettings, GovernorCountingSimple, GovernorVotes, GovernorVotesQuorumFraction {
-    constructor(IVotes _token)
+contract MyGovernor is
+    Governor,
+    GovernorSettings,
+    GovernorCountingSimple,
+    GovernorVotes,
+    GovernorVotesQuorumFraction
+{
+    constructor(
+        IVotes _token
+    )
         Governor("MyGovernor")
-        GovernorSettings(1, 1, 0)
+        GovernorSettings(1 /* 1 block */, 7200 /* 1 day */, 0)
         GovernorVotes(_token)
         GovernorVotesQuorumFraction(4)
     {}
@@ -35,7 +43,9 @@ contract MyGovernor is Governor, GovernorSettings, GovernorCountingSimple, Gover
         return super.votingPeriod();
     }
 
-    function quorum(uint256 blockNumber)
+    function quorum(
+        uint256 blockNumber
+    )
         public
         view
         override(IGovernor, GovernorVotesQuorumFraction)
