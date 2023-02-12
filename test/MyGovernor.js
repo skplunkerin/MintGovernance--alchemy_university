@@ -2,6 +2,8 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 const { assert } = require("chai");
 const { ethers } = require("hardhat");
 const { toUtf8Bytes, keccak256, parseEther } = ethers.utils;
+// const { time } = require("@nomicfoundation/hardhat-network-helpers");
+const helpers = require("@nomicfoundation/hardhat-network-helpers");
 
 describe("MyGovernor", function () {
   async function deployFixture() {
@@ -67,8 +69,22 @@ describe("MyGovernor", function () {
       const event = receipt.events.find((x) => x.event === "ProposalCreated");
       const { proposalId } = event.args;
 
-      // wait for the 1 block voting delay
-      await hre.network.provider.send("evm_mine");
+      // // wait for the 1 block voting delay
+      // // await hre.network.provider.send("evm_mine");
+      //
+      // TODO: advance time by 1 day to allow `castVote()`s. [topher]
+      //
+      // Advance time by one day and mine a new block
+      // await helpers.time.increase(86400);
+      // 2 days
+      await helpers.time.increase(172800);
+      // 1 hour
+      // await time.increase(3600);
+      //
+      // nothing is working...
+      // await time.increase(172800);
+      // await helpers.time.increase(172800);
+      // await hre.helpers.time.increase(172800);
 
       return { ...deployValues, proposalId };
     }
