@@ -18,7 +18,11 @@ contract MyGovernor is
         IVotes _token
     )
         Governor("MyGovernor")
-        GovernorSettings(1 /* 1 block */, 7200 /* 1 day */, 0)
+        GovernorSettings(
+            1 /* voting delay: 1 block */,
+            7200 /* voting period: 7200 blocks (7,200 blocks * 12 second mining time each = about 1 day) */,
+            0 /* proposal threshold */
+        )
         GovernorVotes(_token)
         GovernorVotesQuorumFraction(4)
     {}

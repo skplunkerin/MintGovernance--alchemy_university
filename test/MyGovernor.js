@@ -69,22 +69,8 @@ describe("MyGovernor", function () {
       const event = receipt.events.find((x) => x.event === "ProposalCreated");
       const { proposalId } = event.args;
 
-      // // wait for the 1 block voting delay
-      // // await hre.network.provider.send("evm_mine");
-      //
-      // TODO: advance time by 1 day to allow `castVote()`s. [topher]
-      //
-      // Advance time by one day and mine a new block
-      // await helpers.time.increase(86400);
-      // 2 days
-      await helpers.time.increase(172800);
-      // 1 hour
-      // await time.increase(3600);
-      //
-      // nothing is working...
-      // await time.increase(172800);
-      // await helpers.time.increase(172800);
-      // await hre.helpers.time.increase(172800);
+      // wait for the 1 block voting delay
+      await hre.network.provider.send("evm_mine");
 
       return { ...deployValues, proposalId };
     }
@@ -118,8 +104,20 @@ describe("MyGovernor", function () {
           (x) => x.event === "VoteCast"
         );
 
-        // wait for the 1 block voting period
-        await hre.network.provider.send("evm_mine");
+        // Wait for the 1 day (86,400 seconds) voting period to end:
+        //
+        // NOTE: advancing time by 1 day doesn't work, although it technically
+        //       should; the way the Governor.sol contract works is by actual
+        //       blocks mined that should equal the 1 day.
+        // // await helpers.time.increase(86400);
+        //
+        // Mine 24 hours worth of blocks:
+        // if each block takes about 12 seconds to mine, and 86,400 seconds is
+        // equal to 24 hours:
+        //   86,400 seconds / 12 seconds = 7,200 blocks
+        for (let i = 0; i < 7200; i++) {
+          await hre.network.provider.send("evm_mine");
+        }
 
         return { ...proposingValues, voteCastEvent };
       }
@@ -138,6 +136,10 @@ describe("MyGovernor", function () {
         const { governor, token, owner } = await loadFixture(
           afterVotingFixture
         );
+
+        // wait for the 1 day (86400 seconds) voting period to end
+        // Advance time by one day and mine a new block
+        // await helpers.time.increase(86401);
 
         await governor.execute(
           [token.address],
