@@ -28,7 +28,7 @@ async function main() {
   const event = receipt.events.find((x) => x.event === "ProposalCreated");
   const { proposalId } = event.args;
 
-  console.log(`Proposal ID "${proposalId} created`);
+  console.log(`Proposal ID ${proposalId} created`);
 }
 
 main()
