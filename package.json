@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "npx hardhat node",
     "compile": "npx hardhat compile",
-    "deploy_local": "npx hardhat run scripts/deployProxy.js --network localhost",
-    "deploy_goerli": "npx hardhat run scripts/deployProxy.js --network goerli",
+    "1-deploy_contracts": "npx hardhat run scripts/1-deploy.js",
+    "2-delegate_votes": "npx hardhat run scripts/2-delegateVotes.js",
+    "3-create_proposal": "npx hardhat run scripts/3-proposalCreate.js",
+    "4-vote_proposal": "npx hardhat run scripts/4-proposalVote.js",
+    "5-execute_proposal": "npx hardhat run scripts/5-proposalExecute.js",
     "verify_goerli": "npx hardhat verify --network goerli",
     "test": "npx hardhat test"
   },
@@ -15,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@nomiclabs/hardhat-etherscan": "^3.1.6",
     "@openzeppelin/contracts": "^4.8.0",
     "dotenv": "^16.0.3",
     "hardhat": "^2.12.6"

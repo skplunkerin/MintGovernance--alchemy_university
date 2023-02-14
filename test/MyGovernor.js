@@ -137,10 +137,6 @@ describe("MyGovernor", function () {
           afterVotingFixture
         );
 
-        // wait for the 1 day (86400 seconds) voting period to end
-        // Advance time by one day and mine a new block
-        // await helpers.time.increase(86401);
-
         await governor.execute(
           [token.address],
           [0],
