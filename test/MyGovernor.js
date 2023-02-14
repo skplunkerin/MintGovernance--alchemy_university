@@ -2,7 +2,6 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 const { assert } = require("chai");
 const { ethers } = require("hardhat");
 const { toUtf8Bytes, keccak256, parseEther } = ethers.utils;
-// const { time } = require("@nomicfoundation/hardhat-network-helpers");
 const helpers = require("@nomicfoundation/hardhat-network-helpers");
 
 describe("MyGovernor", function () {
@@ -109,7 +108,8 @@ describe("MyGovernor", function () {
         // NOTE: advancing time by 1 day doesn't work, although it technically
         //       should; the way the Governor.sol contract works is by actual
         //       blocks mined that should equal the 1 day.
-        // // await helpers.time.increase(86400);
+        // // const { time } = require("@nomicfoundation/hardhat-network-helpers");
+        // // await time.increase(86400);
         //
         // Mine 24 hours worth of blocks:
         // if each block takes about 12 seconds to mine, and 86,400 seconds is
